@@ -620,5 +620,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: White Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
+      propertyPath: m_TagString
+      value: Obstacles
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab060356916f5724a878f0bc8a190550, type: 3}
