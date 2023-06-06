@@ -182,10 +182,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Ball
       objectReference: {fileID: 0}
-    - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
-      propertyPath: m_TagString
-      value: Obstacles
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab060356916f5724a878f0bc8a190550, type: 3}
 --- !u!1 &82635106
@@ -387,7 +383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5597103520914904206, guid: ab060356916f5724a878f0bc8a190550, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 47.610054
+      value: 47.56
       objectReference: {fileID: 0}
     - target: {fileID: 5597103520914904206, guid: ab060356916f5724a878f0bc8a190550, type: 3}
       propertyPath: m_LocalRotation.w
@@ -424,10 +420,6 @@ PrefabInstance:
     - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
       propertyPath: m_Name
       value: Green Ball
-      objectReference: {fileID: 0}
-    - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
-      propertyPath: m_TagString
-      value: Obstacles
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab060356916f5724a878f0bc8a190550, type: 3}
@@ -485,14 +477,10 @@ PrefabInstance:
     - target: {fileID: 5597103520914904208, guid: ab060356916f5724a878f0bc8a190550, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 978e3a8f886b8a44890fc30822aad9b6, type: 2}
+      objectReference: {fileID: 2100000, guid: de89e951d14b528448c057c95be0d916, type: 2}
     - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
       propertyPath: m_Name
       value: Black Ball
-      objectReference: {fileID: 0}
-    - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
-      propertyPath: m_TagString
-      value: Obstacles
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab060356916f5724a878f0bc8a190550, type: 3}
@@ -547,17 +535,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5597103520914904208, guid: ab060356916f5724a878f0bc8a190550, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 36f2b516823585b40ac1424131f5bbd6, type: 2}
     - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
       propertyPath: m_Name
       value: Red Ball
-      objectReference: {fileID: 0}
-    - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
-      propertyPath: m_TagString
-      value: Obstacles
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab060356916f5724a878f0bc8a190550, type: 3}
@@ -619,10 +599,6 @@ PrefabInstance:
     - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
       propertyPath: m_Name
       value: White Ball
-      objectReference: {fileID: 0}
-    - target: {fileID: 5597103520914904210, guid: ab060356916f5724a878f0bc8a190550, type: 3}
-      propertyPath: m_TagString
-      value: Obstacles
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab060356916f5724a878f0bc8a190550, type: 3}
