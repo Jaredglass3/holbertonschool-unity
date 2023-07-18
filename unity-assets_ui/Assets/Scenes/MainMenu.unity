@@ -1227,7 +1227,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3377492517166517163, guid: 91c1cfca404ae32479c15547b9dd9a4d, type: 3}
       propertyPath: m_Name
-      value: OptionButton
+      value: OptionsButton
       objectReference: {fileID: 0}
     - target: {fileID: 6613340134433393971, guid: 91c1cfca404ae32479c15547b9dd9a4d, type: 3}
       propertyPath: m_Pivot.x
