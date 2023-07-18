@@ -588,7 +588,7 @@ GameObject:
   - component: {fileID: 432625645}
   - component: {fileID: 432625646}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: InvertYToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
