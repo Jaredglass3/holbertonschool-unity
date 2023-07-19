@@ -6,20 +6,34 @@ using UnityEngine.SceneManagement;
 
 public class OptionsMenu : MonoBehaviour
 {
-    // This variable will store the name of the previous scene
-    private string previousScene;
+    public Toggle invertYAxis;
+    int Inverted = -1;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Get the name of the previous scene from PlayerPrefs if available
-        previousScene = PlayerPrefs.GetString("PreviousScene", "MainMenu");
+        if (PlayerPrefs.HasKey("InvertYToggle"))
+            invertYAxis.isOn = PlayerPrefs.GetInt("InvertYToggle") == 0 ? false : true;
     }
 
-    // Method to handle the Back button's click event
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
     public void Back()
     {
-        // Load the previous scene using its name
-        SceneManager.LoadScene(previousScene);
+        string lastScene = PlayerPrefs.GetString("PreviousScene");
+        SceneManager.LoadScene(lastScene);
+    }
+
+    public void Apply()
+    {
+        if (invertYAxis.isOn)
+            PlayerPrefs.SetInt("InvertYToggle", 1);
+        else
+            PlayerPrefs.SetInt("InvertYToggle", 0);
+        Back();
     }
 }
