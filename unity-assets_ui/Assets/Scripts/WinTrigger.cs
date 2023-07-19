@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +5,10 @@ using UnityEngine.UI;
 public class WinTrigger : MonoBehaviour
 {
     public GameObject Player;
-    public Text Timer;
+    public GameObject Camera;
+    public GameObject TimerCanvas;
+    public GameObject WinCanvas;
+    public GameObject PauseMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +25,23 @@ public class WinTrigger : MonoBehaviour
     {
         if (other.name == "Player")
         {
-            Player.GetComponent<Timer>().enabled = false;
-            Timer.color = Color.green;
-            Timer.fontSize = 60;
+            // Unable show pause menu press esc key
+            PauseMenu.SetActive(false);
+
+            // show win display
+            WinCanvas.SetActive(true);
+
+            // get Timer script and call win method
+            Timer timer = Player.GetComponent<Timer>();
+            timer.Win();
+
+            // stop timer cont and hide timer on top
+            timer.enabled = false;
+            TimerCanvas.SetActive(false);
+
+            // disable player and camera movement 
+            Player.GetComponent<PlayerController>().enabled = false;
+            Camera.GetComponent<CameraController>().enabled = false;
         }
     }
 }
