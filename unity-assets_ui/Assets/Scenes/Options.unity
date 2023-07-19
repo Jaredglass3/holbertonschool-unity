@@ -2491,6 +2491,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ApplyButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6175528177374526359, guid: 817c5308f7666ed4b9bbca6981faa14c, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 1641548200286959669, guid: 97d47089170550a4c90e9e44711fcc4f, type: 3}
     - target: {fileID: 7699473596198830114, guid: 817c5308f7666ed4b9bbca6981faa14c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
