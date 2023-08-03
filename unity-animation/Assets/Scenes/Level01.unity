@@ -2046,6 +2046,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &838319388 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1596051893988837324, guid: d4588383884914846be9595a38185eec, type: 3}
+  m_PrefabInstance: {fileID: 1273649808753306703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &838319389 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4667554855524933046, guid: d4588383884914846be9595a38185eec, type: 3}
+  m_PrefabInstance: {fileID: 1273649808753306703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &903252333
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4095,6 +4105,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1273649809369838099, guid: d4588383884914846be9595a38185eec, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273649809369838099, guid: d4588383884914846be9595a38185eec, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 838319389}
+    - target: {fileID: 1273649809369838099, guid: d4588383884914846be9595a38185eec, type: 3}
+      propertyPath: childObject
+      value: 
+      objectReference: {fileID: 838319388}
     - target: {fileID: 1273649809369838100, guid: d4588383884914846be9595a38185eec, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4117,7 +4139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1273649809369838127, guid: d4588383884914846be9595a38185eec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.34
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 1273649809369838127, guid: d4588383884914846be9595a38185eec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4150,6 +4172,20 @@ PrefabInstance:
     - target: {fileID: 1273649809369838127, guid: d4588383884914846be9595a38185eec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596051893988837324, guid: d4588383884914846be9595a38185eec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667554855524933046, guid: d4588383884914846be9595a38185eec, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'Boy:Hips'\n\tTransform 'Boy:LeftArm'\n\tTransform
+        'Boy:RightHandRing1'\n\tTransform 'Boy:RightHandThumb1'\n\tTransform 'Boy:LeftHandRing2'\n\tTransform
+        'Boy:Head'\n\tTransform 'Boy:LeftHandPinky2'\n\tTransform 'Boy:RightHandIndex2'\n\tTransform
+        'Boy:RightArm'\n\tTransform 'Boy:RightUpLeg'\n\tand more ...\n\tFrom animation
+        clip 'Running'"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4588383884914846be9595a38185eec, type: 3}
