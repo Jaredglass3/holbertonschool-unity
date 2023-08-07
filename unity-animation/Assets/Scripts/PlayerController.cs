@@ -1,92 +1,210 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Rigidbody rb;
+    public float speed = 6.0F;
+    public float jumpSpeed = 1.0F; 
+    public float gravity = 20.0f;
+    private Rigidbody selfRigidbody;
+
+    private bool canJump = true;
+    public float sensitivity = 4.0f;
+    public Transform childObject;
+
+    private Vector3 direction = Vector3.zero;
+
+    CharacterController controller;
     public Animator animator;
-    public float speed;
-    public float groundDrag;
-    private float horizontalInput;
-    private float verticalInput;
-    public float jumpHeight = 5f;
-    public float gravityScale = 9.8f;
-    public float rotationSpeed = 10f;
-    [SerializeField]
-    private bool isGrounded;
-    private Transform modelTransform;
-    private Vector3 initialOffset;
-    private Quaternion targetRotation;
-    private AnimatorStateInfo stateInfo;
-    private Vector3 moveDirection;
 
-    private void Start()
+    public Transform cam;
+    public float turnSmoothTime = 0.1f;
+    float turnSmoothVelocity;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        modelTransform = transform.GetChild(0);
-        initialOffset = modelTransform.position - transform.position;
-        stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-    }
-
-    private void Update()
-    {
-        isGrounded = Physics.Raycast(transform.position, -transform.up, 1.25f);
-        TakeInput();
-
-        rb.drag = groundDrag;
-
-        if (transform.position.y < -30)
+        selfRigidbody = GetComponent<Rigidbody>();
+        if (selfRigidbody == null)
         {
-            transform.position = new Vector3(0, 30, 0);
-            animator.SetTrigger("Falling");
+            selfRigidbody = gameObject.AddComponent<Rigidbody>();
         }
-        else if (transform.position.y < 2 && stateInfo.IsName("Falling"))
-        {
-            animator.ResetTrigger("Falling");
-            modelTransform.position = new Vector3(modelTransform.position.x, -2.7f, modelTransform.position.z);
-        }
-        else if (stateInfo.IsName("Falling Flat Impact"))
-        {
-            modelTransform.position = new Vector3(modelTransform.position.x, -1f, modelTransform.position.z);
-        }
+        // contoller of player
+        controller = GetComponent<CharacterController>();
 
-        animator.SetBool("FallOnGround", isGrounded);
+        // take animation that's on child component
+        animator = childObject.GetComponent<Animator>();
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            animator.SetBool("IsJumping", true);
-            Jump();
-        }
-
-        animator.SetBool("IsJumping", !isGrounded);
-        animator.SetBool("IsMoving", (Mathf.Abs(verticalInput) > 0) || (Mathf.Abs(horizontalInput) > 0));
-
-        if (moveDirection != Vector3.zero)
-            targetRotation = Quaternion.LookRotation(moveDirection);
     }
 
+    // void Update()
+    // {
+    //     float xDisplacement = Input.GetAxis("Horizontal");
+    //     float zDisplacement = Input.GetAxis("Vertical");
 
-    private void FixedUpdate()
+    //     childObject.position = transform.position;
+    //     childObject.rotation = transform.rotation;
+    //     if (controller.isGrounded)
+    //     {
+    //         direction = new Vector3(xDisplacement * speed, 0, zDisplacement * speed);
+    //         if (Input.GetKeyDown(KeyCode.Space))
+    //         {
+    //             direction.y = jumpSpeed;
+    //             animator.SetTrigger("isJumping");
+    //             animator.SetBool("isRunning", false);
+    //             animator.SetBool("isIdle", false);
+    //             canJump = false;
+    //         }
+    //     }
+    //     else
+    //         direction = new Vector3(xDisplacement * speed, direction.y, zDisplacement * speed);
+
+    //     direction.y -= gravity * Time.deltaTime;
+
+    //     if (direction.x != 0.0f || direction.z != 0.0f)
+    //     {
+    //         float targetAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg + cam.eulerAngles.y;
+    //         float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+    //         transform.rotation = Quaternion.Euler(0f, angle, 0f);
+    //         Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+    //         moveDir.y = direction.y;
+    //         moveDir.x *= speed;
+    //         moveDir.z *= speed;
+    //         controller.Move(moveDir * Time.deltaTime);
+    //         if (controller.isGrounded)
+    //         {
+    //             canJump = true;
+    //             animator.SetBool("isRunning", true);
+    //             animator.SetBool("isIdle", false);
+    //         }
+    //         else
+    //         {
+    //             animator.SetBool("isRunning", false);
+    //             animator.SetBool("isIdle", false);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         controller.Move(direction * Time.deltaTime);
+    //         if (controller.isGrounded)
+    //         {
+    //             canJump = true;
+    //             animator.SetBool("isRunning", false);
+    //             animator.SetBool("isIdle", true);
+    //         }
+    //         else
+    //         {
+    //             animator.SetBool("isRunning", false);
+    //             animator.SetBool("isIdle", false);
+    //         }
+    //     }
+
+    //     if (gameObject.transform.position.y <= -20)
+    //         gameObject.transform.position = new Vector3(0, 15, 0);
+    // }
+
+    void Update()
     {
-        MovePlayer();
-        if (!isGrounded)
-            rb.AddForce(Physics.gravity * (gravityScale - 1) * rb.mass * 2);
+        // jump only when thouch ground
+        // if (canJump)
+        // {
+        //     // if can jump mean that is not jumping
+        //     animator.SetBool("isJumping", false);
+
+        // jump
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        {
+            selfRigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            animator.SetBool("isJumping", true);
+            // direction.y = speed;
+            // animator.SetTrigger("isJumping");
+            animator.SetBool("isRunning", false);
+            canJump = false;
+        }
+
+        // if player falls out map
+        if (gameObject.transform.position.y <= -20)
+        {
+            gameObject.transform.position = new Vector3(0, 50, 0);
+            animator.SetBool("isFalling", true);
+            
+        }
     }
 
-    private void TakeInput()
+    void FixedUpdate()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontal = 0, vertical = 0;
+        // direction = new Vector3(horizontal, 0, vertical).normalized;
 
-        moveDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        // check if some movement keys is beeing pressed
+        bool isMoving = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) ||
+                        Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) ||
+                        Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) ||
+                        Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) ;
+
+        // enable movement animations
+        if (isMoving && canJump)
+        {
+            animator.SetBool("isRunning", true);
+            animator.SetBool("isIdle", false);
+            animator.SetBool("isJumping", false);
+            // animator.SetTrigger("isJumping");
+        }
+        // if no movement keys is being pressed desable running animations
+        else if (!isMoving && canJump)
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isIdle", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isIdle", false);
+        }
+
+        if (canJump)
+        {
+            animator.SetBool("isJumping", false);
+            animator.SetBool("isFalling", false);
+            // animator.SetTrigger("isJumping");
+            childObject.position = gameObject.transform.position;
+        }
+
+        // four direction movement
+		if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        {
+            vertical = 1;
+            childObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+		if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+        {
+            vertical = -1;
+            childObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            horizontal = -1;
+            childObject.transform.localRotation = Quaternion.Euler(0, 270, 0);
+        }
+		if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            horizontal = 1;
+            childObject.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        }
+        // Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
+        direction = new Vector3(horizontal, 0, vertical).normalized;
+
+        direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
+        transform.position += direction * speed * Time.deltaTime;
     }
 
-    private void MovePlayer()
+    void OnCollisionEnter(Collision other)
     {
-        moveDirection = (transform.forward * verticalInput) + (transform.right * horizontalInput);
-        animator.SetBool("IsMoving", (Mathf.Abs(verticalInput) > 0) || (Mathf.Abs(horizontalInput) > 0));
-        rb.AddForce(moveDirection * speed * 10f, ForceMode.Force);
-        modelTransform.rotation = Quaternion.Slerp(modelTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        modelTransform.position = transform.position + initialOffset;
+        // if is touching ground  
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            canJump = true;
+        }
     }
-
-    private void Jump() => rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
 }
