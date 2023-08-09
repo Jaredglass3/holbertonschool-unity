@@ -168,7 +168,6 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", false);
             // animator.SetTrigger("isJumping");
-            childObject.position = gameObject.transform.position;
         }
 
         // four direction movement
