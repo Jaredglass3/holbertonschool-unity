@@ -130,6 +130,14 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isFalling", true);
              // Trigger the animation transition here:
         animator.SetTrigger("LandImpactTrigger");
+        }
+        
+        // Check if FallingFlatImpact animation has finished
+    if (animator.GetCurrentAnimatorStateInfo(0).IsName("FallingFlatImpact") &&
+        animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+    {
+        // Trigger the transition to Getting Up
+        animator.SetTrigger("ImpactToGettingUp");
     
         }
     }
