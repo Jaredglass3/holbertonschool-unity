@@ -128,7 +128,9 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.transform.position = new Vector3(0, 50, 0);
             animator.SetBool("isFalling", true);
-            
+             // Trigger the animation transition here:
+        animator.SetTrigger("LandImpactTrigger");
+    
         }
     }
 
