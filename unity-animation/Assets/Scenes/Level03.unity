@@ -2446,7 +2446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596c66b012741be4bb9549050668c2e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1478421149}
   turnSpeed: 4
   offset: {x: 0, y: 3, z: -5}
   isInverted: 1
@@ -3560,6 +3560,11 @@ MeshCollider:
 --- !u!1 &1478421148 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1273649809369838100, guid: d4588383884914846be9595a38185eec, type: 3}
+  m_PrefabInstance: {fileID: 1128856903269915131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1478421149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1273649809369838127, guid: d4588383884914846be9595a38185eec, type: 3}
   m_PrefabInstance: {fileID: 1128856903269915131}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1523763656 stripped
