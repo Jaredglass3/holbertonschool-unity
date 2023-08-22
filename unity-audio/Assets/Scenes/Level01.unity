@@ -5301,10 +5301,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1078181656}
     - target: {fileID: 1904210529567802197, guid: 8f788f6b6e1451e4da59b26ce5c4786a, type: 3}
+<<<<<<< HEAD
       propertyPath: victorySound
       value: 
       objectReference: {fileID: 917596742}
     - target: {fileID: 1904210529567802197, guid: 8f788f6b6e1451e4da59b26ce5c4786a, type: 3}
+=======
+>>>>>>> 708b849b6652b39b8bbe05d5bcd51da4480c2f3b
       propertyPath: backgroundMusicController
       value: 
       objectReference: {fileID: 1110744197}
