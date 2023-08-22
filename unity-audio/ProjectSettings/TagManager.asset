@@ -5,14 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Grass
+  - Rock
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - GrassLayer
   - Water
   - UI
-  - 
+  - RockLayer
   - 
   - 
   - 
