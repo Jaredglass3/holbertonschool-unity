@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
@@ -12,10 +10,14 @@ public class PauseMenu : MonoBehaviour
     private Rigidbody rb;
     public bool pressed = false;
 
+    [SerializeField] private AudioMixer masterMixer; // Reference to the MasterMixer
+    [SerializeField] private AudioMixerSnapshot pausedSnapshot; // Reference to the PausedSnapshot
+    [SerializeField] private AudioMixerSnapshot unpausedSnapshot; // Reference to the UnpausedSnapshot
+    public float transitionTime = 0.2f; // Transition time for Audio Mixer Snapshots
+
     // Start is called before the first frame update
     void Start()
     {
-        //get rigidbody component
         rb = Player.GetComponent<Rigidbody>();
         Camera.GetComponent<CameraController>().enabled = true;
     }
@@ -25,7 +27,6 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // Check if ESC was pressed before
             pressed = !pressed;
             if (pressed)
                 Resume();
@@ -36,7 +37,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
-        // active pause menu and stop timer, movement, camera and falling
+        // Transition to the paused snapshot with a smooth transition time
+        masterMixer.TransitionToSnapshots(new AudioMixerSnapshot[] { pausedSnapshot }, new float[] { 1.0f }, transitionTime);
+
         pauseCanvas.SetActive(true);
         Player.GetComponent<Timer>().enabled = false;
         Player.GetComponent<PlayerController>().enabled = false;
@@ -46,7 +49,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        // resume game and plays timer, movement, camera and falling
+        // Transition back to the unpaused snapshot with a smooth transition time
+        masterMixer.TransitionToSnapshots(new AudioMixerSnapshot[] { unpausedSnapshot }, new float[] { 1.0f }, transitionTime);
+
         pauseCanvas.SetActive(false);
         Player.GetComponent<Timer>().enabled = true;
         Player.GetComponent<PlayerController>().enabled = true;
@@ -56,10 +61,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
-        // Get the name of the current scene
         string currentSceneName = SceneManager.GetActiveScene().name;
-
-        // Load the current scene again
         SceneManager.LoadScene(currentSceneName);
     }
 
