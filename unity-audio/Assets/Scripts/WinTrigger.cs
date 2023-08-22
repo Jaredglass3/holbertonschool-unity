@@ -10,11 +10,9 @@ public class WinTrigger : MonoBehaviour
     public GameObject WinCanvas;
     public GameObject PauseMenu;
     public BackgroundMusicController backgroundMusicController; // Reference to your BackgroundMusicController script
-<<<<<<< HEAD
-    public AudioSource victorySound;
-=======
 
->>>>>>> 708b849b6652b39b8bbe05d5bcd51da4480c2f3b
+    public AudioSource victorySound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,18 +29,16 @@ public class WinTrigger : MonoBehaviour
     {
         if (other.name == "Player")
         {
-<<<<<<< HEAD
+
               Debug.Log("Trigger entered");
            // Stop the background music
-=======
             // Stop the background music
->>>>>>> 708b849b6652b39b8bbe05d5bcd51da4480c2f3b
             if (backgroundMusicController != null)
             {
                 backgroundMusicController.GetComponent<AudioSource>().Stop();
             }
 
-<<<<<<< HEAD
+
 
              // Play the victory sound
             if (victorySound != null)
@@ -50,8 +46,6 @@ public class WinTrigger : MonoBehaviour
                 victorySound.Play();
             }
 
-=======
->>>>>>> 708b849b6652b39b8bbe05d5bcd51da4480c2f3b
             // Unable show pause menu press esc key
             PauseMenu.SetActive(false);
 
