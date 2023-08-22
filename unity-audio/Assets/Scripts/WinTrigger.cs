@@ -9,6 +9,8 @@ public class WinTrigger : MonoBehaviour
     public GameObject TimerCanvas;
     public GameObject WinCanvas;
     public GameObject PauseMenu;
+    public BackgroundMusicController backgroundMusicController; // Reference to your BackgroundMusicController script
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,12 @@ public class WinTrigger : MonoBehaviour
     {
         if (other.name == "Player")
         {
+            // Stop the background music
+            if (backgroundMusicController != null)
+            {
+                backgroundMusicController.GetComponent<AudioSource>().Stop();
+            }
+
             // Unable show pause menu press esc key
             PauseMenu.SetActive(false);
 

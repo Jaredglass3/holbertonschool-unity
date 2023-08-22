@@ -1670,6 +1670,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5941872551128036504, guid: 28ea2ee17b762e54c834f192c619ffdc, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5941872551331226553, guid: 28ea2ee17b762e54c834f192c619ffdc, type: 3}
       propertyPath: m_Name
       value: MenuSFX
@@ -1716,6 +1720,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5941872551331226559, guid: 28ea2ee17b762e54c834f192c619ffdc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5941872552190656538, guid: 28ea2ee17b762e54c834f192c619ffdc, type: 3}
+      propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
