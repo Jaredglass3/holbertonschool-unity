@@ -1550,14 +1550,6 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 1273649809369838126, guid: d4588383884914846be9595a38185eec, type: 3}
   m_PrefabInstance: {fileID: 1273649808753306703}
   m_PrefabAsset: {fileID: 0}
---- !u!81 &625450595
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625450587}
-  m_Enabled: 1
 --- !u!1001 &646628268
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -684,7 +684,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 94c5dd63bdf959e468fa7e05f6eed58a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3387,7 +3387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f08d11d64dcbe9c4b97db5b0f5855d16, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.38441002
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f08d11d64dcbe9c4b97db5b0f5855d16, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5026,9 +5026,17 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1273649809369838099, guid: d4588383884914846be9595a38185eec, type: 3}
+      propertyPath: gravity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273649809369838099, guid: d4588383884914846be9595a38185eec, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 1985607266}
+    - target: {fileID: 1273649809369838099, guid: d4588383884914846be9595a38185eec, type: 3}
+      propertyPath: jumpSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1273649809369838099, guid: d4588383884914846be9595a38185eec, type: 3}
       propertyPath: childObject
       value: 
