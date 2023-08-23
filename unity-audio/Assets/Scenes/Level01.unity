@@ -5785,9 +5785,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 625450587}
     - target: {fileID: 4609564048907906940, guid: a9690dbd83d704643a6c4e51bb140adb, type: 3}
+      propertyPath: masterMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 97693318e306cc043b358b27a06e6f59, type: 2}
+    - target: {fileID: 4609564048907906940, guid: a9690dbd83d704643a6c4e51bb140adb, type: 3}
       propertyPath: pauseCanvas
       value: 
       objectReference: {fileID: 1049853042}
+    - target: {fileID: 4609564048907906940, guid: a9690dbd83d704643a6c4e51bb140adb, type: 3}
+      propertyPath: pausedSnapshot
+      value: 
+      objectReference: {fileID: -3181314620546495412, guid: 97693318e306cc043b358b27a06e6f59, type: 2}
+    - target: {fileID: 4609564048907906940, guid: a9690dbd83d704643a6c4e51bb140adb, type: 3}
+      propertyPath: unpausedSnapshot
+      value: 
+      objectReference: {fileID: 24500006, guid: 97693318e306cc043b358b27a06e6f59, type: 2}
     - target: {fileID: 4609564048907906941, guid: a9690dbd83d704643a6c4e51bb140adb, type: 3}
       propertyPath: m_Name
       value: GameController
