@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        playerRigidbody.drag = 5f; // Adjust as needed
+        playerRigidbody.angularDrag = 5f; // Adjust as needed
         animator = GetComponentInChildren<Animator>();
         startPosition = transform.position;
     }
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical).normalized * moveSpeed * Time.deltaTime;
 
+        // Use Rigidbody.MovePosition for movement
         playerRigidbody.MovePosition(transform.position + movement);
 
         if (movement != Vector3.zero)
@@ -77,15 +80,39 @@ public class PlayerController : MonoBehaviour
             childObject.transform.localRotation = Quaternion.Euler(0, 90, 0);
         }
 
-        // Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
         direction = new Vector3(horizontal, 0, vertical).normalized;
 
+        // Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
         direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
-        transform.position += direction * moveSpeed * Time.deltaTime;
+
+        // Use Rigidbody.MovePosition for movement
+        playerRigidbody.MovePosition(transform.position + direction * moveSpeed * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump"))
         {
             playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            animator.SetBool("IsJumping", true);
+        }
+
+        // Check if the character is grounded and the jump animation is complete
+        if (IsGrounded() && !animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+        {
+            animator.SetBool("IsJumping", false);
+        }
+    }
+
+    bool IsGrounded()
+    {
+        float raycastDistance = 1.2f; // You may need to adjust this based on your player's height
+
+        // Cast a ray from the player's position downward
+        if (Physics.Raycast(transform.position, Vector3.down, raycastDistance))
+        {
+            return true; // The ray hit something, so the player is grounded
+        }
+        else
+        {
+            return false; // The ray did not hit anything, so the player is not grounded
         }
     }
 
