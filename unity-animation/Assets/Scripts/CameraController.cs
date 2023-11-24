@@ -1,61 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform player; // The target the camera should follow
-    public float turnSpeed = 4.0f; // The speed at which the camera should follow the target
-    public Vector3 offset; // The offset of the camera from the target
-    public bool isInverted = false; // Whether the Y-axis movement is inverted
-    public int Inverted = -1; // Multiplier for Y-axis movement based on inversion
+    public Transform target; // The target object (i.e., our player) that the camera should follow
+    public bool rotateTargetWithCamera = true;
+    public Vector3 offset = new Vector3(0, 2.5f, -5); // Default offset from the target
+    public float rotationSpeed = 5; // Speed for rotating the camera
 
-    private Scene OptionsScene;
+    private float pitch = 0; // Vertical rotation
+    private float yaw = 0; // Horizontal rotation
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Check if there's a saved preference for inverting the Y-axis
-        if (PlayerPrefs.HasKey("InvertYToggle"))
-            isInverted = PlayerPrefs.GetInt("InvertYToggle") == 0 ? false : true;
-        else
-            isInverted = false;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        // The Update method is empty in this script
-        // It means there is no additional behavior during the frame update
+        HandleInput();
+        UpdateCameraPosition();
     }
 
-    void LateUpdate()
+    void HandleInput()
     {
-        // LateUpdate is called after all Update functions have been called.
-        // It's often used for camera manipulation to ensure the player position has been updated.
+        // Capture mouse input
+        yaw += Input.GetAxis("Mouse X") * rotationSpeed;
+        pitch -= Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        // Set the Inverted variable based on the isInverted flag
-        if (isInverted)
-            Inverted = 1;
-        if (!isInverted)
-            Inverted = -1;
-
-        // Update the camera offset based on mouse input
-        offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) * offset;
-        offset = Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * Inverted * turnSpeed, Vector3.right) * offset;
-
-        // Set the camera position to follow the player with the calculated offset
-        transform.position = player.transform.position + offset;
-
-        // Make the camera look at the player
-        transform.LookAt(player.transform.position);
-
-        // Remove rotation around X and Z axes from the player
-        Quaternion targetRotation = transform.rotation;
-        targetRotation.x = 0;
-        targetRotation.z = 0;
-        player.rotation = targetRotation;
+        // Clamp the pitch (vertical rotation) to prevent the camera from flipping
+        pitch = Mathf.Clamp(pitch, -45, 45);
     }
+
+    void UpdateCameraPosition()
+    {
+        // Update camera rotation
+        transform.rotation = Quaternion.Euler(pitch, yaw, 0);
+
+        // Update camera position based on rotation and offset
+        transform.position = target.position + transform.TransformVector(offset);
+        
+        if (rotateTargetWithCamera)
+        {
+            Vector3 playerRotation = new Vector3(0, yaw, 0);
+            target.rotation = Quaternion.Euler(playerRotation);
+        }
+
+    }
+    
+    public void ResetCamera()
+    {
+        // Reset the pitch and yaw values
+        pitch = 0;
+        yaw = 0;
+
+        // Update the camera's position and rotation immediately
+        UpdateCameraPosition();
+    }
+
 }

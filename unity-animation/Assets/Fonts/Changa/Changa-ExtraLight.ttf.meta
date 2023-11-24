@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5babe782dbff851428577b250d4f47c3
+guid: 01bac7d2e168220498e98451ee574432
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -11,10 +11,7 @@ TrueTypeFontImporter:
   fontNames:
   - Changa
   fallbackFontReferences:
-  - {fileID: 12800000, guid: 64fd41b1c6a8d8c45a8692f1f150c6c8, type: 3}
-  - {fileID: 12800000, guid: b1fcfc1fd7138ed4eaf7fd2fc8529c04, type: 3}
-  - {fileID: 12800000, guid: 4b37182a0eeb0be458c5094e038594b5, type: 3}
-  - {fileID: 12800000, guid: 9272dd1901963314d8dfea08d93ace75, type: 3}
+  - {fileID: 12800000, guid: b059f7f7d1a10554085bc6de2636ab85, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

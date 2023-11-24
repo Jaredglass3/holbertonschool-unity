@@ -1,81 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseCanvas;
-    public GameObject Player;
-    public GameObject Camera;
-    private Rigidbody rb;
-    public bool pressed = false;
+    public Button restartButton;
+    public Button menuButton;
+    public Button optionsButton;
+    public Button resumeButton;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        //get rigidbody component
-        rb = Player.GetComponent<Rigidbody>();
-        Camera.GetComponent<CameraController>().enabled = true;
+        resumeButton.onClick.AddListener(Resume);
+        menuButton.onClick.AddListener(MainMenu);
+        optionsButton.onClick.AddListener(Options);
+        restartButton.onClick.AddListener(Restart);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            // Check if ESC was pressed before
-            pressed = !pressed;
-            if (pressed)
-                Resume();
-            if (!pressed)
-                Pause();
-        }
-    }
-
-    public void Pause()
-    {
-        // active pause menu and stop timer, movement, camera and falling
-        pauseCanvas.SetActive(true);
-        Player.GetComponent<Timer>().enabled = false;
-        Player.GetComponent<PlayerController>().enabled = false;
-        Camera.GetComponent<CameraController>().enabled = false;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-    }
-
+    
     public void Resume()
     {
-        // resume game and plays timer, movement, camera and falling
-        pauseCanvas.SetActive(false);
-        Player.GetComponent<Timer>().enabled = true;
-        Player.GetComponent<PlayerController>().enabled = true;
-        Camera.GetComponent<CameraController>().enabled = true;
-        rb.constraints = RigidbodyConstraints.None;
+        PauseController.Instance.TriggerResume();
     }
+    
 
     public void Restart()
     {
-        // Get the name of the current scene
-        string currentSceneName = SceneManager.GetActiveScene().name;
-
-        // Load the current scene again
-        SceneManager.LoadScene(currentSceneName);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
 
     public void MainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 
+
     public void Options()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Options");
-        GameObject optionsCanvas = GameObject.Find("OptionsCanvas");
     }
 
-    void OnDisable()
-    {
-        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
-    }
+
 }

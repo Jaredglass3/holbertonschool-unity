@@ -1,33 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 using TMPro;
+using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    public Text TimerText;
-    public float time = 0f;
+    public TMP_Text TimerText; // Reference to the TextMeshPro component displaying the timer
+    private float elapsedTime = 0f; // Elapsed game time
+    public TMP_Text FinalTime; // Reference to the TextMeshPro component displaying the final time
 
-    public TMPro.TMP_Text FinalTime;
+    private bool isCounting;
 
-    // Start is called before the first frame update
-    void Start()
+    private float targetAlpha;
+
+    private void Start()
     {
-        
+        isCounting = false;
+        targetAlpha = TimerText.alpha;
+        TimerText.alpha = targetAlpha / 2;
     }
 
-    // Update is called once per frame
+    public void TriggerTimer()
+    {
+        isCounting = true;
+        elapsedTime = 0;
+        TimerText.alpha = targetAlpha;
+    }
+
+    // Update the displayed timer
     void Update()
     {
-        // Counter time, in specific format
-        time += Time.deltaTime;
-        TimerText.text = time.ToString("0:00.00");
+        if (isCounting)
+        {
+            elapsedTime += Time.deltaTime;
+            float seconds = elapsedTime % 60;
+            float minutes = Mathf.Floor(elapsedTime / 60);
+
+            TimerText.text = string.Format("{0:00}:{1:00.00}", minutes, seconds);
+        }
     }
 
+    // Display the final time
     public void Win()
     {
-        // time shown on WinCanvas
-        FinalTime.text = TimerText.text;
+        isCounting = false;
+
+        TimerText.gameObject.SetActive(false);
+        
+        float seconds = elapsedTime % 60;
+        float minutes = Mathf.Floor(elapsedTime / 60);
+        
+        FinalTime.color = Color.green;
+        FinalTime.text = string.Format("{0:00}:{1:00.00}", minutes, seconds);
     }
 }

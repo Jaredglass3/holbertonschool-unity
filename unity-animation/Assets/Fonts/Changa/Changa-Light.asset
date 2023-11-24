@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!21 &-2858819038977286497
+--- !u!21 &-6946564387630035358
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: -681847866150223586}
+        m_Texture: {fileID: -1656459044764737800}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OutlineTex:
@@ -103,7 +103,7 @@ Material:
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_BuildTextureStacks: []
---- !u!28 &-681847866150223586
+--- !u!28 &-1656459044764737800
 Texture2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,12 +163,13 @@ MonoBehaviour:
   m_Name: Changa-Light
   m_EditorClassIdentifier: 
   hashCode: 0
-  material: {fileID: -2858819038977286497}
+  material: {fileID: -6946564387630035358}
   materialHashCode: 0
   m_Version: 1.1.0
-  m_SourceFontFileGUID: 4b37182a0eeb0be458c5094e038594b5
-  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 4b37182a0eeb0be458c5094e038594b5, type: 3}
-  m_SourceFontFile: {fileID: 12800000, guid: 4b37182a0eeb0be458c5094e038594b5, type: 3}
+  m_SourceFontFileGUID: b059f7f7d1a10554085bc6de2636ab85
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: b059f7f7d1a10554085bc6de2636ab85,
+    type: 3}
+  m_SourceFontFile: {fileID: 12800000, guid: b059f7f7d1a10554085bc6de2636ab85, type: 3}
   m_AtlasPopulationMode: 1
   m_FaceInfo:
     m_FaceIndex: 0
@@ -194,7 +195,7 @@ MonoBehaviour:
   m_GlyphTable: []
   m_CharacterTable: []
   m_AtlasTextures:
-  - {fileID: -681847866150223586}
+  - {fileID: -1656459044764737800}
   m_AtlasTextureIndex: 0
   m_IsMultiAtlasTexturesEnabled: 0
   m_ClearDynamicDataOnBuild: 0
@@ -240,7 +241,7 @@ MonoBehaviour:
   m_FallbackFontAssetTable: []
   m_CreationSettings:
     sourceFontFileName: 
-    sourceFontFileGUID: 4b37182a0eeb0be458c5094e038594b5
+    sourceFontFileGUID: b059f7f7d1a10554085bc6de2636ab85
     pointSizeSamplingMode: 0
     pointSize: 90
     padding: 9

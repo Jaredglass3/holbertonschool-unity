@@ -1,40 +1,44 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    [SerializeField]
+    private Button[] levelSelectionButtons;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private Button quitButton;
+    [SerializeField] private Button optionsButton;
+
+    private void Start()
     {
+        for (int i = 0; i < 3; i++)
+        {
+            var levelID = i + 1;
+            levelSelectionButtons[i].onClick.AddListener(delegate { PlayLevel(levelID);});
+        }
         
+        quitButton.onClick.AddListener(Quit);
+        optionsButton.onClick.AddListener(OpenOptions);
     }
 
-    public void LevelSelect(int level)
+    public void PlayLevel(int levelID)
     {
-        SceneManager.LoadScene("Level0" + level);
+        var scene = "Level0" + levelID;
+        PlayerPrefs.SetString("PreviousScene", "MainMenu");
+        SceneManager.LoadScene(scene);
     }
-
-    public void Options()
+    public void OpenOptions()
     {
+        PlayerPrefs.SetString("PreviousScene", "MainMenu");
         SceneManager.LoadScene("Options");
     }
-
-    public void Exit()
+    public void Quit()
     {
-        Debug.Log("Aplication quit");
+        Debug.Log("Quit Game");
         Application.Quit();
-    }
-
-    void OnDisable()
-    {
-        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
     }
 }

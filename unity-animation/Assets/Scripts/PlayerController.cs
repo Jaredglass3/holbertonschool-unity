@@ -1,125 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float turnSpeed = 200f;
-    public float jumpForce = 5f;
-    private Rigidbody playerRigidbody;
-    private Animator animator;
-    private Vector3 startPosition;
+    public float speed = 12f;
+    public float airControlSpeed = 6f;
+    public float jumpForce = 10.0f;
+    public float gravity = 30.0f;
 
-    private int vertical = 0;
-    private int horizontal = 0;
-
-    public GameObject childObject;
+    private Vector3 moveDirection = Vector3.zero;
+    private CharacterController characterController;
 
     void Start()
     {
-        playerRigidbody = GetComponent<Rigidbody>();
-        playerRigidbody.drag = 5f; // Adjust as needed
-        playerRigidbody.angularDrag = 5f; // Adjust as needed
-        animator = GetComponentInChildren<Animator>();
-        startPosition = transform.position;
+        characterController = GetComponent<CharacterController>();
     }
 
     void Update()
     {
-        if (animator == null)
-        {
-            Debug.LogError("Animator component is null. Make sure it's properly assigned.");
-            return;
-        }
-
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical).normalized * moveSpeed * Time.deltaTime;
-
-        // Use Rigidbody.MovePosition for movement
-        playerRigidbody.MovePosition(transform.position + movement);
-
-        if (movement != Vector3.zero)
-        {
-            Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
-            playerRigidbody.MoveRotation(Quaternion.RotateTowards(transform.rotation, toRotation, turnSpeed * Time.deltaTime));
-        }
-
-        bool isMoving = movement.magnitude > 0.01f;
-
-        animator.SetBool("IsRunning", isMoving);
-        animator.SetBool("IsIdle", !isMoving);
-
-        if (transform.position.y < -10f)
-        {
-            ResetPlayerPosition();
-        }
-
-        // Declare and initialize direction
-        Vector3 direction = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            vertical = 1;
-            // Assuming childObject is declared somewhere in the class
-            childObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            vertical = -1;
-            childObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            horizontal = -1;
-            childObject.transform.localRotation = Quaternion.Euler(0, 270, 0);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            horizontal = 1;
-            childObject.transform.localRotation = Quaternion.Euler(0, 90, 0);
-        }
-
-        direction = new Vector3(horizontal, 0, vertical).normalized;
-
-        // Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-        direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
-
-        // Use Rigidbody.MovePosition for movement
-        playerRigidbody.MovePosition(transform.position + direction * moveSpeed * Time.deltaTime);
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            animator.SetBool("IsJumping", true);
-        }
-
-        // Check if the character is grounded and the jump animation is complete
-        if (IsGrounded() && !animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
-        {
-            animator.SetBool("IsJumping", false);
-        }
+        MoveCharacter();
     }
 
-    bool IsGrounded()
+    void MoveCharacter()
     {
-        float raycastDistance = 1.2f; // You may need to adjust this based on your player's height
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direction = (transform.forward * vertical) + (transform.right * horizontal);
 
-        // Cast a ray from the player's position downward
-        if (Physics.Raycast(transform.position, Vector3.down, raycastDistance))
+        if(characterController.isGrounded)
         {
-            return true; // The ray hit something, so the player is grounded
+            moveDirection = direction * speed;
+
+            if(Input.GetButtonDown("Jump"))
+            {
+                moveDirection.y = jumpForce;
+            }
         }
         else
         {
-            return false; // The ray did not hit anything, so the player is not grounded
+            // Apply reduced air control
+            moveDirection.x += direction.x * airControlSpeed * Time.deltaTime;
+            moveDirection.z += direction.z * airControlSpeed * Time.deltaTime;
         }
+
+        // Apply gravity
+        moveDirection.y -= gravity * Time.deltaTime;
+
+        // Move the character
+        characterController.Move(moveDirection * Time.deltaTime);
     }
 
-    void ResetPlayerPosition()
-    {
-        transform.position = startPosition;
-        playerRigidbody.velocity = Vector3.zero;
-        playerRigidbody.angularVelocity = Vector3.zero;
-    }
 }

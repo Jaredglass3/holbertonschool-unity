@@ -1,39 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
 {
-    public Toggle invertYAxis;
-    int Inverted = -1;
-
-    // Start is called before the first frame update
+    [SerializeField]
+    private Toggle invertYToggle;
+    [SerializeField]
+    private Button backButton;
+    [SerializeField] 
+    private Button applyButton;
+    
     void Start()
     {
-        if (PlayerPrefs.HasKey("InvertYToggle"))
-            invertYAxis.isOn = PlayerPrefs.GetInt("InvertYToggle") == 0 ? false : true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        invertYToggle.isOn = PlayerPrefs.GetInt("yInverted") == 1;
         
+        backButton.onClick.AddListener(Back);
+        applyButton.onClick.AddListener(Apply);
     }
-
+    
     public void Back()
     {
-        string lastScene = PlayerPrefs.GetString("PreviousScene");
-        SceneManager.LoadScene(lastScene);
+        SceneManager.LoadScene(PlayerPrefs.GetString
+            ("PreviousScene"));
     }
 
     public void Apply()
     {
-        if (invertYAxis.isOn)
-            PlayerPrefs.SetInt("InvertYToggle", 1);
-        else
-            PlayerPrefs.SetInt("InvertYToggle", 0);
-        Back();
+        PlayerPrefs.SetInt("yInverted", invertYToggle.isOn ? 1 : 0);
     }
 }
