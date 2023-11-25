@@ -4024,6 +4024,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTimer: {fileID: 1333539533}
   winCanvas: {fileID: 1947192199}
+--- !u!1 &1890174066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6169681623646680376, guid: 56b5deb92cec2894ea920245c94e5d00, type: 3}
+  m_PrefabInstance: {fileID: 6439713632566422162}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1890936145
 GameObject:
   m_ObjectHideFlags: 0
@@ -4817,6 +4822,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 610070612, guid: 56b5deb92cec2894ea920245c94e5d00, type: 3}
+      propertyPath: childObject
+      value: 
+      objectReference: {fileID: 1890174066}
     - target: {fileID: 591344598769120760, guid: 56b5deb92cec2894ea920245c94e5d00, type: 3}
       propertyPath: m_Controller
       value: 

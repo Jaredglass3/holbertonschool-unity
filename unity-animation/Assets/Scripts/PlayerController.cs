@@ -14,10 +14,14 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController characterController;
+    private Animator animator;  // Declare the animator variable
+
+    public GameObject childObject;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();  // Initialize the animator variable
     }
 
     void Update()
@@ -30,6 +34,11 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 direction = (transform.forward * vertical) + (transform.right * horizontal);
+
+        bool isMoving = direction.magnitude > 0.01f;
+
+        animator.SetBool("IsRunning", isMoving);
+        animator.SetBool("IsIdle", !isMoving);
 
         if(characterController.isGrounded)
         {
@@ -52,6 +61,36 @@ public class PlayerController : MonoBehaviour
 
         // Move the character
         characterController.Move(moveDirection * Time.deltaTime);
+
+        // Declare and initialize direction
+        Vector3 childDirection = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            vertical = 1;
+            // Assuming childObject is declared somewhere in the class
+            childObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            vertical = -1;
+            childObject.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            horizontal = -1;
+            childObject.transform.localRotation = Quaternion.Euler(0, 270, 0);
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            horizontal = 1;
+            childObject.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        }
+
+        direction = new Vector3(horizontal, 0, vertical).normalized;
+
+        // Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
+        direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
     }
 
 }
