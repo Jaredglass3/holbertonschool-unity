@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -17,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;  // Declare the animator variable
 
     public GameObject childObject;
+
+    private bool isJumping = false;
 
     void Start()
     {
@@ -39,13 +39,18 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("IsRunning", isMoving);
         animator.SetBool("IsIdle", !isMoving);
+        animator.SetBool("IsJumping", isJumping);
 
-        if(characterController.isGrounded)
+        if (characterController.isGrounded)
         {
             moveDirection = direction * speed;
 
-            if(Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && !isJumping)
             {
+                // Start the Jump animation immediately
+                animator.SetTrigger("IdleToJump");
+                isJumping = true;
+
                 moveDirection.y = jumpForce;
             }
         }
@@ -62,7 +67,7 @@ public class PlayerController : MonoBehaviour
         // Move the character
         characterController.Move(moveDirection * Time.deltaTime);
 
-        // Declare and initialize direction
+        // Declare and initialize child direction
         Vector3 childDirection = Vector3.zero;
 
         if (Input.GetKey(KeyCode.W))
@@ -91,6 +96,22 @@ public class PlayerController : MonoBehaviour
 
         // Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
         direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
-    }
 
+        // Check for landing to transition back to Idle or Running
+        if (characterController.isGrounded && isJumping)
+        {
+            isJumping = false;
+
+            if (isMoving)
+            {
+                // Start Running animation immediately after landing if still moving forward
+                animator.SetTrigger("JumpToRunning");
+            }
+            else
+            {
+                // Start Idle animation immediately after landing if not moving forward
+                animator.SetTrigger("JumpToIdle");
+            }
+        }
+    }
 }
