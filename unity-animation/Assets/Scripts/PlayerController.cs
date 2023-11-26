@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public GameObject childObject;
 
     private bool isJumping = false;
+    private bool isFalling = false;
 
     void Start()
     {
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsRunning", isMoving);
         animator.SetBool("IsIdle", !isMoving);
         animator.SetBool("IsJumping", isJumping);
+        animator.SetBool("IsFalling", isFalling);
 
         if (characterController.isGrounded)
         {
@@ -59,6 +61,14 @@ public class PlayerController : MonoBehaviour
             // Apply reduced air control
             moveDirection.x += direction.x * airControlSpeed * Time.deltaTime;
             moveDirection.z += direction.z * airControlSpeed * Time.deltaTime;
+
+            if (!isFalling && moveDirection.y < 0)
+            {
+                // Start Falling animation when falling from a platform
+                animator.SetTrigger("RunningToFalling");
+                animator.SetTrigger("JumpToFalling");
+                isFalling = true;
+            }
         }
 
         // Apply gravity
@@ -98,9 +108,10 @@ public class PlayerController : MonoBehaviour
         direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
 
         // Check for landing to transition back to Idle or Running
-        if (characterController.isGrounded && isJumping)
+        if (characterController.isGrounded && (isJumping || isFalling))
         {
             isJumping = false;
+            isFalling = false;
 
             if (isMoving)
             {
