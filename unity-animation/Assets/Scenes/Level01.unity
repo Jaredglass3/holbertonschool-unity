@@ -4828,12 +4828,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 610070612, guid: 56b5deb92cec2894ea920245c94e5d00, type: 3}
       propertyPath: jumpForce
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 610070612, guid: 56b5deb92cec2894ea920245c94e5d00, type: 3}
       propertyPath: childObject
       value: 
       objectReference: {fileID: 1890174066}
+    - target: {fileID: 610070612, guid: 56b5deb92cec2894ea920245c94e5d00, type: 3}
+      propertyPath: fallThreshold
+      value: -30
+      objectReference: {fileID: 0}
     - target: {fileID: 591344598769120760, guid: 56b5deb92cec2894ea920245c94e5d00, type: 3}
       propertyPath: m_Controller
       value: 

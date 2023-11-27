@@ -9,20 +9,29 @@ public class PlayerController : MonoBehaviour
     public float airControlSpeed = 6f;
     public float jumpForce = 10.0f;
     public float gravity = 30.0f;
+    public float fallThreshold = -10f; // Adjust the threshold based on your level design
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController characterController;
     private Animator animator;  // Declare the animator variable
 
     public GameObject childObject;
+    private Vector3 startingPosition;
 
     private bool isJumping = false;
     private bool isFalling = false;
+    private bool hasLanded = false;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();  // Initialize the animator variable
+
+        // Store the starting position for respawn
+        startingPosition = transform.position;
+
+        // Ensure the "FallingToImpact" trigger is initially false
+        animator.SetBool("FallingToImpact", false);
     }
 
     void Update()
@@ -43,6 +52,13 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsJumping", isJumping);
         animator.SetBool("IsFalling", isFalling);
 
+        // Check if the player is falling beyond the threshold
+        if (transform.position.y < fallThreshold)
+        {
+            Respawn();
+            return; // Skip the rest of the MoveCharacter logic
+        }
+
         if (characterController.isGrounded)
         {
             moveDirection = direction * speed;
@@ -54,6 +70,13 @@ public class PlayerController : MonoBehaviour
                 isJumping = true;
 
                 moveDirection.y = jumpForce;
+            }
+
+            // Check if the player has landed to trigger the Falling Flat Impact animation
+            if (!hasLanded && characterController.isGrounded)
+            {
+                animator.SetBool("FallingToImpact", true);
+                hasLanded = true;
             }
         }
         else
@@ -68,6 +91,10 @@ public class PlayerController : MonoBehaviour
                 animator.SetTrigger("RunningToFalling");
                 animator.SetTrigger("JumpToFalling");
                 isFalling = true;
+
+                // Reset landing variables when starting to fall
+                hasLanded = false;
+                animator.SetBool("FallingToImpact", false);  // Reset the trigger
             }
         }
 
@@ -77,13 +104,14 @@ public class PlayerController : MonoBehaviour
         // Move the character
         characterController.Move(moveDirection * Time.deltaTime);
 
+        // ... (existing code)
+
         // Declare and initialize child direction
         Vector3 childDirection = Vector3.zero;
 
         if (Input.GetKey(KeyCode.W))
         {
             vertical = 1;
-            // Assuming childObject is declared somewhere in the class
             childObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         else if (Input.GetKey(KeyCode.S))
@@ -103,26 +131,19 @@ public class PlayerController : MonoBehaviour
         }
 
         direction = new Vector3(horizontal, 0, vertical).normalized;
-
-        // Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
         direction = Quaternion.Euler(0, transform.eulerAngles.y, 0) * direction;
+    }
 
-        // Check for landing to transition back to Idle or Running
-        if (characterController.isGrounded && (isJumping || isFalling))
-        {
-            isJumping = false;
-            isFalling = false;
+    void Respawn()
+    {
+        // Implement respawn logic here
+        // For example, reset the player's position to the starting position
+        transform.position = startingPosition;
 
-            if (isMoving)
-            {
-                // Start Running animation immediately after landing if still moving forward
-                animator.SetTrigger("JumpToRunning");
-            }
-            else
-            {
-                // Start Idle animation immediately after landing if not moving forward
-                animator.SetTrigger("JumpToIdle");
-            }
-        }
+        // Reset other relevant variables or perform additional respawn actions
+        isJumping = false;
+        isFalling = false;
+
+        // Optional: Add any other respawn-related logic here
     }
 }
