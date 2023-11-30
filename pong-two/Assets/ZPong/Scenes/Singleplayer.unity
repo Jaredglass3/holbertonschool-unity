@@ -893,7 +893,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 100bc628194dbb84186aeaec721c7fb1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eccae3587718c7c42b27a89e78c236e0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d8133bb5a0a2fd74abcc618fcb410558, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0a26d2a6650ba954a9d2eb3d461b181f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2290,7 +2290,7 @@ PrefabInstance:
     - target: {fileID: 3944913817348981305, guid: 72ee9d7406810c14386966108a14c6bd, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d9ce68cee97ce994f8a9c00aae3d8fcb, type: 3}
+      objectReference: {fileID: 21300000, guid: e9c293b76a073ac47af17f793a920054, type: 3}
     - target: {fileID: 3944913817348981311, guid: 72ee9d7406810c14386966108a14c6bd, type: 3}
       propertyPath: screenTop
       value: 540
