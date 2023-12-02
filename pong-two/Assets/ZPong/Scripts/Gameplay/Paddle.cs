@@ -1,26 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZPong
 {
-
     [RequireComponent(typeof(Collider2D))]
     public class Paddle : MonoBehaviour
     {
         public bool isLeftPaddle = true;
+        public float slideInDuration = 1.0f; // Adjust this value based on the desired slide-in duration
 
         private float halfPlayerHeight;
         public float screenTop { get; private set; }
         public float screenBottom { get; private set; }
-        
-        private RectTransform rectTransform;
 
+        private RectTransform rectTransform;
 
         private void Start()
         {
             rectTransform = GetComponent<RectTransform>();
-
 
             if (PlayerPrefs.HasKey("PaddleSize"))
             {
@@ -34,18 +31,18 @@ namespace ZPong
 
             screenTop = height / 2;
             screenBottom = -1 * height / 2;
+
+            Vector2 offscreenPosition = new Vector2(rectTransform.anchoredPosition.x, screenTop + halfPlayerHeight + 10f);
+            rectTransform.anchoredPosition = offscreenPosition;
+
+            StartCoroutine(SlideInAnimation());
         }
 
         public void Move(float movement)
         {
-            //Set temporary variable
             Vector2 newPosition = rectTransform.anchoredPosition;
-
-            //Manipulate the temporary variable
             newPosition.y += movement;
             newPosition.y = Mathf.Clamp(newPosition.y, screenBottom + halfPlayerHeight, screenTop - halfPlayerHeight);
-
-            //Apply temporary variable back to original component
             rectTransform.anchoredPosition = newPosition;
         }
 
@@ -59,13 +56,20 @@ namespace ZPong
             return rectTransform.anchoredPosition;
         }
 
-        // public void Reflect(Ball ball)
-        // {
-        //     float y = BallHitPaddleWhere(ball.GetPosition(), rectTransform.anchoredPosition, rectTransform.sizeDelta.y / 2f);
-        //     //Debug.Log("X: " + bounceDirection + " Y: " + y);
-        //     ball.Reflect(new Vector2(bounceDirection, y));
-        // }
+        private IEnumerator SlideInAnimation()
+        {
+            float elapsedTime = 0f;
+            Vector2 offscreenPosition = new Vector2(rectTransform.anchoredPosition.x, screenTop + halfPlayerHeight + 10f);
+            Vector2 targetPosition = new Vector2(rectTransform.anchoredPosition.x, screenTop - halfPlayerHeight);
 
+            while (elapsedTime < slideInDuration)
+            {
+                rectTransform.anchoredPosition = Vector2.Lerp(offscreenPosition, targetPosition, elapsedTime / slideInDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
 
+            rectTransform.anchoredPosition = targetPosition;
+        }
     }
 }
