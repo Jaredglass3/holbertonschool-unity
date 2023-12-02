@@ -27,6 +27,32 @@ namespace ZPong
         {
             rectTransform = GetComponent<RectTransform>();
 
+            // Save the initial position of the ball
+    Vector2 initialPosition = new Vector2(0f, -1000f); // Set it off-screen at the bottom
+    rectTransform.anchoredPosition = initialPosition;
+
+    // Start the animation to bring the ball to its default position
+    StartCoroutine(SlideInAnimation());
+
+    bounceSFX = this.GetComponent<AudioSource>();
+}
+
+IEnumerator SlideInAnimation()
+{
+    float startTime = Time.time;
+    Vector2 initialPosition = rectTransform.anchoredPosition;
+    Vector2 targetPosition = new Vector2(0f, 0f); // Set it to the desired starting position
+
+    while (Time.time - startTime < 2f) // Adjust the duration as needed
+    {
+        float t = (Time.time - startTime) / 2f; // Adjust the duration here as well
+        rectTransform.anchoredPosition = Vector2.Lerp(initialPosition, targetPosition, t);
+        yield return null;
+    }
+
+    // Ensure the ball is at the exact target position
+    rectTransform.anchoredPosition = targetPosition;
+
             if (PlayerPrefs.HasKey("BallSpeed"))
             {
                 speed = PlayerPrefs.GetFloat("BallSpeed");
