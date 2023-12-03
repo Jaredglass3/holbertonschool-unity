@@ -23,35 +23,34 @@ namespace ZPong
 
         private AudioSource bounceSFX;
 
+        public ParticleSystem impactParticlePrefab;
+
         private void Start()
         {
             rectTransform = GetComponent<RectTransform>();
 
-            // Save the initial position of the ball
-    Vector2 initialPosition = new Vector2(0f, -1000f); // Set it off-screen at the bottom
-    rectTransform.anchoredPosition = initialPosition;
+            Vector2 initialPosition = new Vector2(0f, -1000f);
+            rectTransform.anchoredPosition = initialPosition;
 
-    // Start the animation to bring the ball to its default position
-    StartCoroutine(SlideInAnimation());
+            StartCoroutine(SlideInAnimation());
 
-    bounceSFX = this.GetComponent<AudioSource>();
-}
+            bounceSFX = this.GetComponent<AudioSource>();
+        }
 
-IEnumerator SlideInAnimation()
-{
-    float startTime = Time.time;
-    Vector2 initialPosition = rectTransform.anchoredPosition;
-    Vector2 targetPosition = new Vector2(0f, 0f); // Set it to the desired starting position
+        IEnumerator SlideInAnimation()
+        {
+            float startTime = Time.time;
+            Vector2 initialPosition = rectTransform.anchoredPosition;
+            Vector2 targetPosition = new Vector2(0f, 0f);
 
-    while (Time.time - startTime < 2f) // Adjust the duration as needed
-    {
-        float t = (Time.time - startTime) / 2f; // Adjust the duration here as well
-        rectTransform.anchoredPosition = Vector2.Lerp(initialPosition, targetPosition, t);
-        yield return null;
-    }
+            while (Time.time - startTime < 2f)
+            {
+                float t = (Time.time - startTime) / 2f;
+                rectTransform.anchoredPosition = Vector2.Lerp(initialPosition, targetPosition, t);
+                yield return null;
+            }
 
-    // Ensure the ball is at the exact target position
-    rectTransform.anchoredPosition = targetPosition;
+            rectTransform.anchoredPosition = targetPosition;
 
             if (PlayerPrefs.HasKey("BallSpeed"))
             {
@@ -90,8 +89,6 @@ IEnumerator SlideInAnimation()
             defaultDirection = direction;
 
             SetHeightBounds();
-
-            bounceSFX = this.GetComponent<AudioSource>();
         }
 
         private void Update()
@@ -118,6 +115,8 @@ IEnumerator SlideInAnimation()
                 float y = BallHitPaddleWhere(GetPosition(), paddle.AnchorPos(),
                     paddle.GetComponent<RectTransform>().sizeDelta.y / 2f);
                 Vector2 newDirection = new Vector2(paddle.isLeftPaddle ? 1f : -1f, y);
+                ParticleSystem impactParticles = Instantiate(impactParticlePrefab, transform.position, Quaternion.identity);
+        impactParticles.Play();
 
                 Reflect(newDirection);
                 PlayBounceSound();
