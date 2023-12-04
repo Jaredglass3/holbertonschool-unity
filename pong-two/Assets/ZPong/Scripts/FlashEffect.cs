@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class FlashEffect : MonoBehaviour
 {
-    public Color flashColor = Color.white;
-    public float flashDuration = 0.1f;
+    public Color flashColor = Color.yellow;
+    public float flashDuration = 2f;
 
     private Image flashImage;
 
