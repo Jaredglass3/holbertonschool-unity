@@ -11,6 +11,8 @@ namespace ZPong
     {
         public static ScoreManager Instance { get; private set; }
 
+        public FlashEffect flashEffect; // Reference to the FlashEffect script
+
         public int scorePlayer1 = 0; // Score for Player 1
         public int scorePlayer2 = 0; // Score for Player 2
         public int winningScore = 11; // Score required to win the game
@@ -48,6 +50,9 @@ namespace ZPong
             Debug.Log("Player 1 scored! Current score: " + scorePlayer1);
 
             PostScore();
+
+             // Trigger the flash effect when Player 1 scores
+            flashEffect.TriggerFlash();
         }
 
         // Call this function when player 2 scores
@@ -59,6 +64,9 @@ namespace ZPong
             Debug.Log("Player 2 scored! Current score: " + scorePlayer2);
 
             PostScore();
+
+            // Trigger the flash effect when Player 2 scores
+            flashEffect.TriggerFlash();
         }
 
         private void PostScore()
