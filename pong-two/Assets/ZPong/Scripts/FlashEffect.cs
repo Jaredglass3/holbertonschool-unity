@@ -17,11 +17,13 @@ public class FlashEffect : MonoBehaviour
 
     public void TriggerFlash()
     {
+        Debug.Log("Flash Triggered!");
         StartCoroutine(FlashCoroutine());
     }
 
     private IEnumerator FlashCoroutine()
     {
+        Debug.Log("Flash Coroutine Started!");
         flashImage.color = flashColor; // Set the flash color
 
         // Wait for one frame
