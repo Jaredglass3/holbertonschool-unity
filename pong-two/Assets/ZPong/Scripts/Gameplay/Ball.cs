@@ -7,12 +7,23 @@ namespace ZPong
     public class Ball : MonoBehaviour
     {
         public float speed = 5f;
+        private float startspeed;
+        
+        public float maxspeed = 10f;
+
+        public float accellerationamount = 0.2f;
         public float squishScale = 0.5f;
         public float squishDuration = 0.2f;
+
+        public Gradient HueSpeedShift;
+
+        private Image sprite;
         private bool isSquishing = false;
 
         private float screenTop = 527;
         private float screenBottom = -527;
+
+        public UiShake elementtoshake;
 
         private Vector2 direction;
         private Vector2 defaultDirection;
@@ -31,6 +42,7 @@ namespace ZPong
         private void Start()
         {
             rectTransform = GetComponent<RectTransform>();
+            elementtoshake = GameObject.Find("Background").GetComponent <UiShake>();
 
             float startTime = Time.time;
             Vector2 initialPosition = new Vector2(0f, -1000f);
@@ -38,8 +50,10 @@ namespace ZPong
 
             lastBallIntroducedTime = Time.time;
             StartCoroutine(SlideInAnimation());
+            startspeed = speed;
 
             bounceSFX = GetComponent<AudioSource>();
+            sprite = GetComponent<Image>();
         }
 
         IEnumerator SlideInAnimation()
@@ -110,6 +124,11 @@ namespace ZPong
                     direction.y *= -1f;
                     PlayBounceSound();
                 }
+                speed += accellerationamount * Time.deltaTime;
+                if (speed > maxspeed)
+                    speed = maxspeed;
+                
+                sprite.color = HueSpeedShift.Evaluate(speed / maxspeed);
             }
 
             if (Time.time - lastBallIntroducedTime > timeBetweenNewBalls)
@@ -121,6 +140,7 @@ namespace ZPong
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            elementtoshake.StartShake();
             if (collision.gameObject.CompareTag("Paddle"))
             {
                 Paddle paddle = collision.gameObject.GetComponent<Paddle>();
@@ -175,6 +195,8 @@ namespace ZPong
         {
             ballActive = value;
             direction = defaultDirection;
+            if (value == true)
+                speed = startspeed;
         }
 
         public Vector2 GetPosition()

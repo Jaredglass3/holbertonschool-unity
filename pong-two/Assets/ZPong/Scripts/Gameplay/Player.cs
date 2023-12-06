@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace ZPong
 {
@@ -18,6 +18,9 @@ namespace ZPong
         public float speed = 5f;
 
         private Paddle thisPaddle;
+
+        public float movementDelay = 0.5f;  // Delay in seconds
+        private bool delayElapsed = false;
 
         private void Start()
         {
@@ -41,19 +44,26 @@ namespace ZPong
             }
         }
 
-        private void Update()
+         private void Update()
         {
-            float verticalInput = 0;
-            if (Input.GetKey(upKey))
+            if (Input.GetKeyDown(upKey) || Input.GetKeyDown(downKey))
             {
-                verticalInput = 1;
+                StartCoroutine(DelayedMovementStart());
             }
-            else if (Input.GetKey(downKey))
+            if ((Input.GetKey(upKey) && delayElapsed) || (Input.GetKey(downKey) && delayElapsed))
             {
-                verticalInput = -1;
+                float direction = Input.GetKey(upKey) ? 1 : -1;
+                thisPaddle.Move(direction * speed * Time.deltaTime);
             }
-
-            thisPaddle.Move(verticalInput * speed * Time.deltaTime);
+            if (Input.GetKeyUp(upKey) || Input.GetKeyUp(downKey))
+            {
+                delayElapsed = false;  // Reset delay flag
+            }
+        }
+        private IEnumerator DelayedMovementStart()
+        {
+            yield return new WaitForSeconds(movementDelay);
+            delayElapsed = true;
         }
     }
 }
