@@ -25,20 +25,27 @@ namespace ZPong
 
         public ParticleSystem impactParticlePrefab;
 
+        private float timeBetweenNewBalls = 10f; // Adjust as needed
+        private float lastBallIntroducedTime;
+
         private void Start()
         {
             rectTransform = GetComponent<RectTransform>();
 
+            float startTime = Time.time;
             Vector2 initialPosition = new Vector2(0f, -1000f);
             rectTransform.anchoredPosition = initialPosition;
 
+            lastBallIntroducedTime = Time.time;
             StartCoroutine(SlideInAnimation());
 
-            bounceSFX = this.GetComponent<AudioSource>();
+            bounceSFX = GetComponent<AudioSource>();
         }
 
         IEnumerator SlideInAnimation()
         {
+            rectTransform = GetComponent<RectTransform>();
+
             float startTime = Time.time;
             Vector2 initialPosition = rectTransform.anchoredPosition;
             Vector2 targetPosition = new Vector2(0f, 0f);
@@ -104,6 +111,12 @@ namespace ZPong
                     PlayBounceSound();
                 }
             }
+
+            if (Time.time - lastBallIntroducedTime > timeBetweenNewBalls)
+            {
+                IntroduceNewBall();
+                lastBallIntroducedTime = Time.time;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -116,7 +129,7 @@ namespace ZPong
                     paddle.GetComponent<RectTransform>().sizeDelta.y / 2f);
                 Vector2 newDirection = new Vector2(paddle.isLeftPaddle ? 1f : -1f, y);
                 ParticleSystem impactParticles = Instantiate(impactParticlePrefab, transform.position, Quaternion.identity);
-        impactParticles.Play();
+                impactParticles.Play();
 
                 Reflect(newDirection);
                 PlayBounceSound();
@@ -124,7 +137,7 @@ namespace ZPong
             }
             else if (collision.gameObject.CompareTag("Goal"))
             {
-                if (this.rectTransform.anchoredPosition.x < -1)
+                if (rectTransform.anchoredPosition.x < -1)
                 {
                     ScoreManager.Instance.ScorePointPlayer2();
                 }
@@ -190,6 +203,20 @@ namespace ZPong
         public void DisableBall()
         {
             ballActive = false;
+        }
+
+        void IntroduceNewBall()
+        {
+            GameObject newBall = Instantiate(gameObject); // Instantiate the original ball's prefab
+            Ball newBallScript = newBall.GetComponent<Ball>();
+
+            // Set the initial position of the new ball to match the original ball's position
+            newBall.transform.position = transform.position;
+
+            newBallScript.SetBallActive(true);  // Adjust as needed
+
+        
+            newBallScript.StartCoroutine(newBallScript.SlideInAnimation());
         }
     }
 }
